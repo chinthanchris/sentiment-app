@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Sentiment Analyzer</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>Sentiment Analysis</h1>
+    <form method="post">
+        <textarea name="text" rows="6" cols="50" placeholder="Enter text here..."></textarea><br><br>
+        <button type="submit">Analyze</button>
+    </form>
+    {% if sentiment %}
+    <h2>Result: {{ sentiment }}</h2>
+    {% endif %}
+</body>
+
+</html>
