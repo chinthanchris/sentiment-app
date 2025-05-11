@@ -1,17 +1,17 @@
 # Use a slim Python base image
 FROM python:3.10-slim
 
-# Set environment variables for the virtual environment
+# Set environment variables for virtual environment
 ENV VIRTUAL_ENV=/opt/venv
 ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
-# Create the virtual environment
+# Create the virtual environment (don't install anything yet)
 RUN python -m venv --copies $VIRTUAL_ENV
 
-# Copy requirements file
+# Copy the requirements file into the container
 COPY requirements.txt .
 
-# Install dependencies using pip cache
+# Install dependencies using pip
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip install --upgrade pip && \
     pip install -r requirements.txt
