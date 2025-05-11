@@ -1,17 +1,23 @@
-# Use a slim Python base image
-FROM python:3.10-slim
+# Use a clean base image with Python pre-installed
+FROM python:3.9-slim
 
-# Set environment variables for virtual environment
-ENV VIRTUAL_ENV=/opt/venv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
+# Set the working directory in the container
+WORKDIR /app
 
-# Create the virtual environment (don't install anything yet)
-RUN python -m venv --copies $VIRTUAL_ENV
+# Copy the application files from your local machine to the container
+COPY . /app/
 
-# Copy the requirements file into the container
-COPY requirements.txt .
+# Create a virtual environment in the /opt/venv directory
+RUN python -m venv /opt/venv
 
-# Install dependencies using pip
-RUN --mount=type=cache,target=/root/.cache/pip \
-    pip install --upgrade pip && \
-    pip install -r requirements.txt
+# Install the dependencies from the requirements.txt into the virtual environment
+RUN /opt/venv/bin/pip install --no-cache-dir -r requirements.txt
+
+# Set environment variables for using the virtual environment's Python and pip
+ENV PATH="/opt/venv/bin:$PATH"
+
+# Expose the port your app will run on (adjust as needed)
+EXPOSE 8080
+
+# Command to run your app (replace with your actual command)
+CMD ["python", "app.py"]
